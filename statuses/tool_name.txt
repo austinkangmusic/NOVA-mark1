@@ -1,0 +1,8 @@
+{
+  "thoughts": [
+    "The conversation has just started, and I'm ready to assist!",
+    "I'll wait for the user's first message."
+  ],
+  "tool_name": "wait",
+  "tool_args": {}
+}
