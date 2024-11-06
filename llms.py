@@ -50,22 +50,17 @@ else:
 def check_model_exists(model_name):
     # Run ollama list command to get the list of models
     command = f'"{ollama_path}" list'  # Quotes added to handle spaces in the path
-    try:
-        result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
-        return model_name in result.stdout
-    except subprocess.CalledProcessError as e:
-        print("Failed to run command:", e)
-        return False  # Return False if the command fails
+    result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
+    return model_name in result.stdout
+
 
 def pull_model(model_name):
     # Pull the model if it does not exist
     print(f"Model '{model_name}' not found. Downloading model...")
     command = f'"{ollama_path}" pull {model_name}'  # Construct the pull command
-    try:
-        subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
-        print(f"Model '{model_name}' downloaded successfully.")
-    except subprocess.CalledProcessError as e:
-        print("Failed to pull model:", e)
+    subprocess.run(command)
+    print(f"Model '{model_name}' downloaded successfully.")
+
         
 def ensure_model_exists(model_name):
     model_path = os.path.join(models_directory, model_name)
@@ -202,4 +197,5 @@ def get_embedding_hf(model_name="sentence-transformers/all-MiniLM-L6-v2"):
 def get_embedding_openai(api_key=None):
     api_key = api_key or get_api_key("openai")
     return OpenAIEmbeddings(api_key=api_key) #type: ignore
+
 
