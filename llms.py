@@ -23,8 +23,29 @@ def get_api_key(service):
     return os.getenv(f"API_KEY_{service.upper()}") or os.getenv(f"{service.upper()}_API_KEY")
 
 
-ollama_path = "D:\\Utilities\\LLMS\\Ollama\\ollama.exe"  # Path to the Ollama executable
-models_directory = "D:\\Utilities\\LLMS\\Ollama\\models"
+import os
+import subprocess
+
+def find_drive_path():
+    # Look for either "Utilities" or "Private Server" on any drive
+    for drive_letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+        base_path = f"{drive_letter}:\\"
+        utilities_path = os.path.join(base_path, "Utilities", "LLMS", "Ollama")
+        private_server_path = os.path.join(base_path, "Private Server", "LLMS", "Ollama")
+        
+        if os.path.exists(utilities_path):
+            return utilities_path
+        elif os.path.exists(private_server_path):
+            return private_server_path
+    return None
+
+# Get paths based on the existing location
+ollama_base_path = find_drive_path()
+if ollama_base_path:
+    ollama_path = os.path.join(ollama_base_path, "ollama.exe")
+    models_directory = os.path.join(ollama_base_path, "models")
+else:
+    raise FileNotFoundError("Neither 'Utilities' nor 'Private Server' directories found on any drive.")
 
 def check_model_exists(model_name):
     # Run ollama list command to get the list of models
@@ -50,6 +71,7 @@ def ensure_model_exists(model_name):
     model_path = os.path.join(models_directory, model_name)
     if not os.path.exists(model_path) and not check_model_exists(model_name):
         pull_model(model_name)
+
 
 # Ollama models https://tidy-exotic-serval.ngrok-free.app
 # http://localhost:11434
@@ -180,3 +202,4 @@ def get_embedding_hf(model_name="sentence-transformers/all-MiniLM-L6-v2"):
 def get_embedding_openai(api_key=None):
     api_key = api_key or get_api_key("openai")
     return OpenAIEmbeddings(api_key=api_key) #type: ignore
+
