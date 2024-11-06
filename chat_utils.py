@@ -14,33 +14,33 @@ def initialize():
 
     # https://colab.research.google.com/drive/131bKCMT-K1nD6AdMe7NF6-Yzxull1Q9G#scrollTo=V7MbuLui56vL
     # Set the environment variable
-    # os.environ["OLLAMA_HOST"] = "https://tidy-exotic-serval.ngrok-free.app"
+    os.environ["OLLAMA_HOST"] = "https://tidy-exotic-serval.ngrok-free.app"
 
-    # # Define the model name
-    # model_name = "llama3.1:8b"
+    # Define the model name
+    model_name = "llama3.1:8b"
 
-    # # Get the chat model
-    # chat_llm = llms.get_ollama_chat(model_name=model_name, temperature=0)
+    # Get the chat model
+    chat_llm = llms.get_ollama_chat(model_name=model_name, temperature=0)
 
-    # # Ensure the model exists
-    # llms.ensure_model_exists(model_name=model_name)
+    # Ensure the model exists
+    llms.ensure_model_exists(model_name=model_name)
 
-    # Command to run ollama serve
+    # # Command to run ollama serve
     # ollama_path = "D:\\Utilities\\LLMS\\Ollama\\ollama.exe"  # Path to the Ollama executable
-#     command = f'"{ollama_path}" serve'  # Ensure the command is formatted correctly
+    # command = f'"{ollama_path}" serve'  # Ensure the command is formatted correctly
 
-#     try:
-#         subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
-#     except subprocess.CalledProcessError as e:
-#         print("Failed to run command:", e)
-# ##
+    # try:
+    #     subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
+    # except subprocess.CalledProcessError as e:
+    #     print("Failed to run command:", e)
+##
 
     # chat_llm = llms.get_lmstudio_chat(model_name="TheBloke/Mistral-7B-Instruct-v0.2-GGUF", temperature=0)
     # chat_llm = llms.get_openrouter(model_name="meta-llama/llama-3.1-70b-instruct")
     # chat_llm = llms.get_azure_openai_chat(deployment_name="gpt-4o-mini", temperature=0)
     # chat_llm = llms.get_anthropic_chat(model_name="claude-3-5-sonnet-20240620", temperature=0)
     # chat_llm = llms.get_google_chat(model_name="gemini-1.5-flash", temperature=0)
-    chat_llm = llms.get_groq_chat(model_name="llama-3.1-70b-versatile", temperature=0)
+    # chat_llm = llms.get_groq_chat(model_name="llama-3.1-70b-versatile", temperature=0)
     
     # utility model used for helper functions (cheaper, faster)
     utility_llm = chat_llm # change if you want to use a different utility model
@@ -110,3 +110,4 @@ def extract_response(response_text):
     text = response.get("text", None)
 
     return thoughts, text
+
